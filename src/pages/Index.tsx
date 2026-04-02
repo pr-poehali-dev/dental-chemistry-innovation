@@ -5,12 +5,14 @@ import Header from "@/components/dental/Header";
 import Sidebar from "@/components/dental/Sidebar";
 import HomeView from "@/components/dental/HomeView";
 import ArticlesView from "@/components/dental/ArticlesView";
+import FactsView from "@/components/dental/FactsView";
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState("home");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedArticle, setExpandedArticle] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -39,6 +41,8 @@ export default function Index() {
     setExpandedArticle(expandedArticle === id ? null : id);
   }
 
+  const showArticles = (showingSearch || activeSection !== "home") && activeSection !== "facts";
+
   return (
     <div className="min-h-screen mesh-bg text-foreground">
       <Header
@@ -51,11 +55,13 @@ export default function Index() {
         onSectionChange={handleSectionChange}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 py-8">
         <Sidebar
           activeSection={activeSection}
           showingSearch={showingSearch}
           onSectionChange={handleSectionChange}
+          isOpen={sidebarOpen}
+          onToggle={() => setSidebarOpen(!sidebarOpen)}
         />
 
         <main className="flex-1 min-w-0">
@@ -66,7 +72,7 @@ export default function Index() {
             />
           )}
 
-          {(showingSearch || activeSection !== "home") && (
+          {showArticles && (
             <ArticlesView
               activeSection={activeSection}
               searchQuery={searchQuery}
@@ -77,6 +83,8 @@ export default function Index() {
               onToggleArticle={handleToggleArticle}
             />
           )}
+
+          {activeSection === "facts" && !showingSearch && <FactsView />}
         </main>
       </div>
 
