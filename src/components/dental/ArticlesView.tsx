@@ -73,46 +73,78 @@ export default function ArticlesView({
             style={{ animationDelay: `${i * 60}ms` }}
           >
             <button
-              className="w-full text-left p-6"
+              className="w-full text-left"
               onClick={() => onToggleArticle(article.id)}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
+              {article.image && (
+                <div className="relative h-44 overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+                  <div className="absolute bottom-3 left-4">
+                    <span className={`tag ${article.tagColor}`}>{article.tag}</span>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <div
+                      className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all ${
+                        expandedArticle === article.id
+                          ? "bg-teal border-teal text-background"
+                          : "bg-black/40 backdrop-blur-sm border-white/10 text-white/70"
+                      }`}
+                    >
+                      <Icon
+                        name={expandedArticle === article.id ? "ChevronUp" : "ChevronDown"}
+                        size={16}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="p-6">
+                {!article.image && (
                   <div className="flex items-center gap-2 mb-3">
                     <span className={`tag ${article.tagColor}`}>{article.tag}</span>
                   </div>
-                  <h3
-                    className="text-lg font-semibold leading-snug mb-2"
-                    style={{ fontFamily: "Cormorant, serif" }}
-                  >
-                    {highlight(article.title, searchQuery)}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {highlight(article.summary, searchQuery)}
-                  </p>
-                </div>
-                <div className="flex-shrink-0 mt-1">
-                  <div
-                    className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all ${
-                      expandedArticle === article.id
-                        ? "bg-teal border-teal text-background"
-                        : "border-white/10 text-muted-foreground"
-                    }`}
-                  >
-                    <Icon
-                      name={expandedArticle === article.id ? "ChevronUp" : "ChevronDown"}
-                      size={16}
-                    />
+                )}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <h3
+                      className="text-lg font-semibold leading-snug mb-2"
+                      style={{ fontFamily: "Cormorant, serif" }}
+                    >
+                      {highlight(article.title, searchQuery)}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {highlight(article.summary, searchQuery)}
+                    </p>
                   </div>
+                  {!article.image && (
+                    <div className="flex-shrink-0 mt-1">
+                      <div
+                        className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all ${
+                          expandedArticle === article.id
+                            ? "bg-teal border-teal text-background"
+                            : "border-white/10 text-muted-foreground"
+                        }`}
+                      >
+                        <Icon
+                          name={expandedArticle === article.id ? "ChevronUp" : "ChevronDown"}
+                          size={16}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 mt-4">
-                {article.keywords.map((k) => (
-                  <span key={k} className="text-xs px-2 py-0.5 rounded-md bg-secondary text-muted-foreground">
-                    {k}
-                  </span>
-                ))}
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {article.keywords.map((k) => (
+                    <span key={k} className="text-xs px-2 py-0.5 rounded-md bg-secondary text-muted-foreground">
+                      {k}
+                    </span>
+                  ))}
+                </div>
               </div>
             </button>
 

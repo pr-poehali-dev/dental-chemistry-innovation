@@ -35,18 +35,26 @@ export default function HomeView({ onSectionChange, onSearch }: HomeViewProps) {
             <button
               key={s.id}
               onClick={() => onSectionChange(s.id)}
-              className="card-hover bg-card border border-white/5 rounded-2xl p-6 text-left group"
+              className="card-hover bg-card border border-white/5 rounded-2xl overflow-hidden text-left group"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center group-hover:bg-teal/20 transition-colors">
-                  <Icon name={s.icon} size={20} className="text-teal" />
+              {s.image && (
+                <div className="relative h-36 overflow-hidden">
+                  <img src={s.image} alt={s.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center">
+                    <Icon name={s.icon} size={16} className="text-teal" />
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <Icon name="ArrowRight" size={15} className="text-white/50 group-hover:text-teal transition-colors" />
+                  </div>
                 </div>
-                <Icon name="ArrowRight" size={16} className="text-muted-foreground group-hover:text-teal transition-colors" />
+              )}
+              <div className="p-5">
+                <h3 className="text-lg font-semibold mb-1" style={{ fontFamily: "Cormorant, serif" }}>
+                  {s.label}
+                </h3>
+                <p className="text-sm text-muted-foreground">{count} статей</p>
               </div>
-              <h3 className="text-lg font-semibold mb-1" style={{ fontFamily: "Cormorant, serif" }}>
-                {s.label}
-              </h3>
-              <p className="text-sm text-muted-foreground">{count} статей</p>
             </button>
           );
         })}
