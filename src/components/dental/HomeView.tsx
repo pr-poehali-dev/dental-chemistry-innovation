@@ -18,9 +18,9 @@ export default function HomeView({ onSectionChange, onSearch }: HomeViewProps) {
             className="text-4xl sm:text-5xl font-bold leading-tight text-foreground mb-3"
             style={{ fontFamily: "Cormorant, serif" }}
           >
-            Химия
+            Дентальная
             <br />
-            <span className="text-teal italic">в стоматологии</span>
+            <span className="text-teal italic">химия</span>
           </h1>
           <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
             Исследование химических принципов, лежащих в основе современных стоматологических материалов и технологий

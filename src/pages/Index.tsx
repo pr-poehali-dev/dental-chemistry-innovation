@@ -84,7 +84,7 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Icon name="FlaskConical" size={14} className="text-teal" />
-            Химия в стоматологии — научный справочник
+            Дентальная химия — научный справочник
           </div>
           <div className="text-xs text-muted-foreground">Основы · Материалы · Технологии · Инновации</div>
         </div>

@@ -29,7 +29,7 @@ export default function Header({
           </div>
           <div className="hidden sm:block">
             <div className="text-sm font-semibold leading-tight" style={{ fontFamily: "Cormorant, serif" }}>
-              Химия в стоматологии
+              Дентальная химия
             </div>
             <div className="text-xs text-muted-foreground leading-tight">справочник</div>
           </div>
