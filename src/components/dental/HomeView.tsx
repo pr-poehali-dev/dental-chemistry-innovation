@@ -1,5 +1,6 @@
+import { useState, useCallback } from "react";
 import Icon from "@/components/ui/icon";
-import { HERO_IMAGE, SECTIONS, ARTICLES } from "./data";
+import { HERO_IMAGE, SECTIONS, ARTICLES, FACTS } from "./data";
 
 type HomeViewProps = {
   onSectionChange: (id: string) => void;
@@ -7,6 +8,23 @@ type HomeViewProps = {
 };
 
 export default function HomeView({ onSectionChange, onSearch }: HomeViewProps) {
+  const [factIndex, setFactIndex] = useState(() => Math.floor(Math.random() * FACTS.length));
+  const [animating, setAnimating] = useState(false);
+
+  const randomFact = useCallback(() => {
+    setAnimating(true);
+    setTimeout(() => {
+      setFactIndex((prev) => {
+        let next = prev;
+        while (next === prev) next = Math.floor(Math.random() * FACTS.length);
+        return next;
+      });
+      setAnimating(false);
+    }, 250);
+  }, []);
+
+  const fact = FACTS[factIndex];
+
   return (
     <div className="animate-fade-up">
       <div className="relative rounded-2xl overflow-hidden mb-8" style={{ height: 340 }}>
@@ -58,6 +76,40 @@ export default function HomeView({ onSectionChange, onSearch }: HomeViewProps) {
             </button>
           );
         })}
+      </div>
+
+      {/* Random fact block */}
+      <div className={`relative mb-6 rounded-2xl border p-6 overflow-hidden transition-opacity duration-250 ${fact.color} ${animating ? "opacity-0" : "opacity-100"}`}>
+        <div className="absolute top-4 right-4">
+          <button
+            onClick={randomFact}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 hover:bg-black/30 text-xs font-medium text-foreground/70 hover:text-foreground transition-all"
+          >
+            <Icon name="Shuffle" size={13} />
+            Другой факт
+          </button>
+        </div>
+        <div className="flex items-start gap-4 pr-28">
+          <span className="text-3xl flex-shrink-0">{fact.emoji}</span>
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
+              Знаете ли вы?
+            </div>
+            <h3
+              className="text-lg font-semibold mb-2 leading-snug"
+              style={{ fontFamily: "Cormorant, serif" }}
+            >
+              {fact.title}
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{fact.text}</p>
+            <button
+              onClick={() => onSectionChange("facts")}
+              className="mt-3 flex items-center gap-1 text-xs text-teal hover:underline"
+            >
+              Все факты <Icon name="ArrowRight" size={12} />
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="p-6 bg-card border border-white/5 rounded-2xl">
